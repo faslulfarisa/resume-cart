@@ -121,7 +121,7 @@ const Dashboard = () => {
         catch(error){
             alert(error.response.data.message)
         }
-    }
+    } 
 
     const uploadProfile = async(imageData)=>{
         const data= new FormData();

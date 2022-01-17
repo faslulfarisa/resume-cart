@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect} from 'react'
 import './second_page.css'
 import profilePic from './images/photo.jpg'
 import gmail from "./icons/envelope-solid.svg"
@@ -101,15 +101,27 @@ const SecondPage = () => {
             })
         )
     }
+    
+
     const userData = useStoreState((state) => state.userData);
+    useEffect(()=>{
+        userData.fullname && setTemplate(prev => {
+            return{
+                ...prev,
+                name: userData.fullname,
+                
+            }
+        })
+    },[userData.fullname])
     return (
         <div className="second_page_container">
             <div className="header-section2">
                 <div className="header-left-sec2">
                     <div className="name2">
                         <TextField
-                            value={userData.fullname}
-                            onChange={value=>changeState(["name"],value)}    
+                            value={name}
+                            onChange={value=>changeState(["name"],value)}  
+                            
                         />
                     </div>
                     <div className="profession2">

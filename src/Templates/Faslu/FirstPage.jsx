@@ -3,7 +3,7 @@ import './style.css'
 import produce from "immer"
 import TextField from "./Components/TextField"
 import TextArea from "./Components/TextArea"
-import { useStoreActions, useStoreState} from 'easy-peasy';
+import {  useStoreState} from 'easy-peasy';
 import api from '../../services/api'
 
 const Faslu = () => {
@@ -89,8 +89,7 @@ const Faslu = () => {
     const{theme,logo,name,designation,address,bio,skill,exp,education}=template;
     const{street,city,pin,email,phone}=address;
     const userData = useStoreState((state) => state.userData);
-    const changeFullName = useStoreActions((actions) => actions.changeFullName);
-    
+   
     useEffect(()=>{
         userData.fullname && setTemplate(prev => {
             return{
