@@ -91,11 +91,10 @@ const Faslu = () => {
     const userData = useStoreState((state) => state.userData);
    
     useEffect(()=>{
-        userData.fullname && setTemplate(prev => {
+        userData.fullname &&  setTemplate(prev => {
             return{
                 ...prev,
-                name: userData.fullname,
-                
+                name: userData.fullname,  
             }
         })
     },[userData.fullname])
@@ -213,10 +212,6 @@ const Faslu = () => {
                 <div className="logo-area2">{getLogo(name)}
                 </div>
                 <div className="resume-name2">
-                    {/* <input
-                    type="text"
-                    value={name}
-                    onChange={(e)=>changeState(["name"],e.target.value)}></input> */}
                     <TextField
                         value={name}
                         onChange={value=>changeState(["name"],value)}    
@@ -387,14 +382,10 @@ const Faslu = () => {
                                     </ul>
                                     <button className="close-button2" onClick={()=>deleteList(["education"],i,"")}>DELETE</button>  
                                     
-                                </div>
-                               
-                            </div>
-                             
+                                </div> 
+                            </div>  
                         )} 
-                        
                     )}    
-                    
                     <button onClick={()=>addToList(["education"],education.length,{ 
                             joiningDate:"September 2007",
                             endingDate:"May 2011",

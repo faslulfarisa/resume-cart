@@ -105,14 +105,14 @@ const SecondPage = () => {
 
     const userData = useStoreState((state) => state.userData);
     useEffect(()=>{
-        userData.fullname && setTemplate(prev => {
+        userData.fullname && userData.profilePic && setTemplate(prev => {
             return{
                 ...prev,
                 name: userData.fullname,
-                
+                profileImage:userData.profilePic   
             }
         })
-    },[userData.fullname])
+    },[userData.fullname,userData.profilePic])
     return (
         <div className="second_page_container">
             <div className="header-section2">
@@ -138,7 +138,7 @@ const SecondPage = () => {
                     </p>
                 </div>
                 <FileUpload
-                    image={userData.profilePic} 
+                    image={ profileImage}
                     onChange={value=>changeState (["profileImage"],value)}
                 />
             </div>
