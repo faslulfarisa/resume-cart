@@ -9,7 +9,6 @@
 .second_page_container input{
     background: transparent;
     border: none;
-
 }
 .header-section2{
     padding: 25px;
@@ -76,6 +75,7 @@
 }
 .nav-section2 div{
     padding-right: 20px;
+    margin:5px;
 }
 .nav-section2 img{
     width:16px;

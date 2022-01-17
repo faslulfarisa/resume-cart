@@ -67,7 +67,9 @@
 .resume-page2 input,textarea{
     border: none;
     outline: none;
+    background: transparent;
 }
+
 textarea{
     resize: none;
     width: 100%;
