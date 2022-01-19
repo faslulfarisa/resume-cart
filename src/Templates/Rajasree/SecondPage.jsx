@@ -2,14 +2,22 @@ import 'react-circular-progressbar/dist/styles.css';
 import "./second.css"
 import Profile4 from "./assets/icons/become_an_illustrator.jpg"
 import { CircularProgressbar} from 'react-circular-progressbar';
-import { useState } from "react"
+import { useState,useEffect} from "react"
 import produce from "immer"
 import TextField from "./Components/TextField"
 import TextArea from "./Components/TextArea"
 import FileUpload from './Components/FileUpload';
 import { useStoreState} from 'easy-peasy';
-
+import ProgressBar from './Components/ProgressBar';
 const SecondPage = () => {
+    const [progress,setProgress]=useState(0);
+    const [skills, setSkills] = useState({
+        photoshop: 0,
+        afterEffects: 0,
+        lightRoom: 0
+    }) 
+
+    
     const colorThemeList4_1=[
         "indigo4",
         "darkviolet4",
@@ -24,13 +32,36 @@ const SecondPage = () => {
     const[state,setState]=useState({
         theme:['black4'],
         profileImage:Profile4,
-        name1:"Patrick",
-        name2:"Marz",
+        name:"Patrick",
+        // name2:"Marz",
         designation:"Illustrator",
         details:{call:" 1234567890",
         email:"email@youremail.com",
         location:"America"},
         profile:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa accusantium dicta ducimus deserunt labore ad officia explicabo impedit. Repellendus mollitia quidem suscipit deserunt nostrum odit deleniti id aliquid neque dicta?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Obcaecati quos illum ullam eaque porro sapiente architecto voluptatum repellat odit natus quibusdam, non blanditiis dicta, hic animi quia et cupiditate temporibus.",
+        // skillset:{
+        //     photoshop:"PhotoShop",
+        //     afterEffects:"AfterEffects",
+        //     lightRoom:"LightRoom",
+            
+        // },
+        skillset:[
+            {
+                id:1,
+                value: "PhotoShop",
+                percentage: 0
+            },
+            {
+                id:2,
+                value:"AfterEffects",
+                percentage: 0
+            },
+            {
+                id:3,
+                value:"LightRoom",
+                percentage: 0
+            }     
+            ],
         education:[
             {
                 
@@ -104,7 +135,26 @@ const SecondPage = () => {
             })
         })
     }
+    const onChange = (key,value) => {
+        if(value>100){
+            changeState(key, 100)
+        }else {
+            changeState(key, value)
+        }
+    }
     const userData = useStoreState((state) => state.userData);
+   
+    
+    useEffect(()=>{
+        userData.fullname && setState(prev=>{
+            return{
+                ...prev,
+                name:userData.fullname,
+               
+              
+            }
+        })
+    },[userData.fullname])
 
     const addToList =(keys,i,value)=>{
         setState((prev)=>{
@@ -135,21 +185,20 @@ const SecondPage = () => {
                 switch(keys.length){
                     case 1:
                         draft[keys[0]].splice(i,1);
-                        draft[keys[0]][i-1].value += value;
+                        if(value) draft[keys[0]][i-1].value += value;
                         break;
                     case 2:
                         draft[keys[0]][keys[1]].splice(i,1);
-                        draft[keys[0]][keys[1]][i-1].value += value;
+                        if(value) draft[keys[0]][keys[1]][i-1].value += value;
                         break;
                     case 3:
                         draft[keys[0]][keys[1]][keys[2]].splice(i,1);
-                        draft[keys[0]][keys[1]][keys[2]][i-1].value += value;
+                        if(value) draft[keys[0]][keys[1]][keys[2]][i-1].value += value;
 
                         break;
                     case 4:
                         draft[keys[0]][keys[1]][keys[2]][keys[3]].splice(i,1);
-                        draft[keys[0]][keys[1]][keys[2]][keys[3]][i-1].value += value;
-
+                        if(value) draft[keys[0]][keys[1]][keys[2]][keys[3]][i-1].value += value;
                         break;
                         default:
                             break;
@@ -157,7 +206,8 @@ const SecondPage = () => {
             })
         })
     }
-    const{theme,profileImage,name1,name2,designation,details,profile,experience,education}=state;
+   
+    const{theme,profileImage,name,designation,details,profile,experience,education, skillset}=state;
     return (
         <>
         <div className="theme_selector_list4">
@@ -176,11 +226,9 @@ const SecondPage = () => {
             <div className="main_container4_1">
                 <div className="head4_1">
                     <div className='firstname_4_1'>
-                        <TextField value={userData.fullname} className='firstname_4_1'
-                        onChange={(value)=>changeState(["name1"],value)}/>
+                        <TextField value={name} className='firstname_4_1'
+                        onChange={(value)=>changeState(["name"],value)}/>
                         <br/>
-                        {/* <TextField value={name2} className='firstname_4_1'
-                        onChange={(value)=>changeState(["name2"],value)}/> */}
                         <TextField value={designation} className="job4_1"
                         onChange={(value)=>changeState(["designation"],value)}/>
                     </div>
@@ -203,30 +251,42 @@ const SecondPage = () => {
                             <TextArea value ={profile}
                             onChange={value=>changeState(["profile"],value)}/>
                         </div>
+            
                     <div className="profile4_1">Skills</div>
-                    <div className="circlesection4_1">
-                        <div className="uppercircle4_1">
-                            <div className="circle4_1"><CircularProgressbar value={30} text="PS"/></div>
-                            <div className="circlename4_1">Photo Shop</div>
-                            <div className="circle4_1"><CircularProgressbar value={30}text="PS"/></div>
-                            <div className="circlename4_1">Photo Shop</div>
-                        </div>
-                        <div className="lowercircle4_1">
-                            <div className="circle4_1" ><CircularProgressbar value={75} text="AE"/></div>
-                            <div className="circlename4_1">After Effects</div>
-                            <div className="circle4_1"><CircularProgressbar value={75}text="AE"/></div>
-                            <div className="circlename4_1">After Effects</div>
-                
-                        </div>
-                    <div className="middle4_1">
-                        <div className="circle4_1"><CircularProgressbar value={75}text="LR"/></div>
-                        <div className="circlename4_1">LightRoom</div>
-                        <div className="circle4_1"><CircularProgressbar value={75}text="LR"/></div>
-                        <div className="circlename4_1">LightRoom</div>
                     
+                    <div className="circlesection4_1">
+                        {skillset.map(({value, percentage},i)=>
+                            <div className="uppercircle4_1">
+                                
+                                <div className="circle4_1"><ProgressBar progress={percentage}
+                                text="PS" />
+                                </div>
+                               
+                                <input type="text" name='percent' placeholder='progress value add'
+                                onChange={(e)=>{onChange(["skillset",i,"percentage"], e.target.value)}}/>
+                                
+                                <div className="circlename4_1">
+                                <button onClick={()=>{deleteList(["skillset"], i, undefined)}}
+                                    className="close4">X</button>
+                                <TextField value={value}
+                                onChange={(value)=>changeState(["skillset",i,"value"],value)}
+                                length={skillset.length}/>
+                                </div>
+                                
+                                 </div>              
+                            )   
+                        }
+                    </div> 
+                    <div className="new4">
+                        <button onClick={()=>{addToList(['skillset'], skillset.length, {
+                            id: skillset.length+1,
+                            value:"Photoshop",
+                            percentage: 0
+                            })}}>Add new</button>
                     </div>
-                </div> 
+                    
         </div>
+        
                 <div className="bottomright4_1">
                 <div className="profile4_1">Education</div>
                 {education.map(({college,startingdate,endingdate,collegedetails},i)=>{

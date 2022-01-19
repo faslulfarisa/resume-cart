@@ -1,9 +1,9 @@
 import "./raeez.css"
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import  produce from "immer"
 import TextField from "./Components/TextField"
 import TextArea from "./Components/TextArea"
-import { useStoreState} from 'easy-peasy';
+import { useStoreState,useStoreActions} from 'easy-peasy';
 const Raeez = () => {
     const colorThemeList= [ "violet",
         "indigo",
@@ -83,6 +83,19 @@ const Raeez = () => {
         ]
     })
     const userData = useStoreState((state) => state.userData);
+    const changeFullName = useStoreActions((actions) => actions.changeFullName);
+    useEffect(()=>{
+        userData.fullname || userData.email && setTemplate(prev => {
+            return{
+                ...prev,
+                name: userData.fullname,
+                gmail:userData.email,
+                
+            
+                
+            }
+        })
+    },[userData.fullname,userData.email])
 
     const getLogo=(name)=>{
         let nameList=name.split(" ");
@@ -181,6 +194,8 @@ const Raeez = () => {
 
     const{theme,logo,name,designation,address,bio,profexp,Education,skills}=template;
     const{street,pincode,gmail,phonenumber,city}=address;
+  
+   
     return (
         <>
         <div className="theme-selector-list3">
@@ -202,7 +217,7 @@ const Raeez = () => {
                 <div className=" name-3" >
                 <TextField
                       onChange={value=>changeState(["name"],value)}
-                      value={userData.fullname}
+                      value={name}
                 />
                     {/* <input type="text"
                     value={name}
@@ -249,7 +264,7 @@ const Raeez = () => {
                    
                 <TextField
                       onChange={value=>changeState(["address","gmail"],value)}
-                      value={userData.gmail}
+                      value={gmail}
                 />
                    {/* <input type="text"
                    value={gmail}
@@ -441,6 +456,10 @@ const Raeez = () => {
 
                
             </div>
+           
+        </div>
+        <div>
+       
         </div>
         </>
     )

@@ -1,6 +1,7 @@
 import {useEffect} from 'react'
 import "../HomeStyle.css"
 import {useNavigate} from 'react-router-dom'
+import {useQuery} from 'react-query'
 import { useState,useContext } from 'react'
 import star from "../../assets/icons/star-regular.svg"
 import solid from "../../assets/icons/star-solid.svg"
@@ -28,13 +29,17 @@ const HomeDescription = () => {
     // const sort=(value)=>{
     //         setTemplate(totalTemplateList.filter(({type})=>type===value))
     //     }
+    const[errorFormVisibility,setErrorFormVisibility]=useState(false)
+    const[error,setError]=useState("")
+    
+    
     useEffect(()=>{
         const getTemplate = async() => {
             try {
                 const response = await api.get("/get-template")
                 setTemplate(response.data.data)
             } catch (error) {
-                console.log(error.response);
+                navigate('/network-error')
             }
         }
         getTemplate()
@@ -42,23 +47,38 @@ const HomeDescription = () => {
     const postTemplate = async(url) =>{
         try {
             const response = await api.post("/add-favorite-template",{templates:[url]})
-            console.log(response);
+            if(response.data.status==true){
+                setFormVisibility(false)
+            }
         } catch (error) {
-            console.log(error.response);
+            let data = error.response.data
+            if(data.status==false){
+                setErrorFormVisibility(true)
+                setError(data)
+            }
         }
+
     }
     
     const favTemplate = async() => {
             try {
                 const response = await api.get("/get-favorite-template")
-                console.log(response);
                 setLikedTemplate(response.data.data)
-                console.log(likedTemplate);
+                if(response.data.status==true){
+                    setFormVisibility(false)
+                }            
             } catch (error) {
-                console.log(error.response);
+                let data = error.response.data
+                if(data.status==false){
+                    navigate("/loading")
+                   
+                }
             }
         }
-    
+        // const{data,error,isloading,isError}=useQuery(['templates'], ()=> api.get("/get-template"))
+        // if(isloading) return <div>Loading...</div>
+        // if(isError) return <div>Error</div>
+
     return (
 
         <div className="home-description-image-section">
@@ -121,6 +141,7 @@ const HomeDescription = () => {
                             postTemplate(url)
                             favTemplate()
                         }
+                        
                         }
                         
                            
@@ -146,6 +167,7 @@ const HomeDescription = () => {
                 >+</button>}
             </div>
             
+
             {formVisibility && <Form setFormVisibility={setFormVisibility} />}
         </div>
     )

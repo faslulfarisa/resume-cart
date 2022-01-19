@@ -5,7 +5,8 @@ import { isValidEmail } from '../utility/validate';
 import {useNavigate} from 'react-router-dom'
 import './Login.css'
 import api from "../services/api"
-import { useStoreState,useStoreActions } from 'easy-peasy';
+import { useStoreActions } from 'easy-peasy';
+import ErrorHandler from './Component/ErrorHandler';
 
 const Admin = () => {
 
@@ -14,7 +15,10 @@ const Admin = () => {
     const toggleIsLoggedIn = useStoreActions((actions) => actions.toggleIsLoggedIn);
     const toggleIsAdmin = useStoreActions((actions) => actions.toggleIsAdmin);
 
-     const navigate=useNavigate();
+    const [errorFormVisibility,setErrorFormVisibility]=useState(false)
+    const [error, setError] = useState(null)
+
+    const navigate=useNavigate();
     const[isOtpButton,setOtpButton]=useState(false)
     const [formData,setFormData] = useState({
         email:"",
@@ -66,10 +70,13 @@ const Admin = () => {
    
     const getOtp = async ()=>{        
         const response = await api.post('/get-admin-otp',{email})
-        if(!response.data.status){
-            alert('Some Error Occured')
-        }else {
-            alert(response.data.message)
+        // console.log(response);
+        try{
+            setErrorFormVisibility(true)
+            setError(response.data.message)
+        }catch{
+            setErrorFormVisibility(false)
+            setError(response.data.message)
         }
     }
     const loginCall = async (e) =>{
@@ -77,14 +84,26 @@ const Admin = () => {
         try{
             const response = await api.post('/admin-login', {otp})
             localStorage.setItem('token',response.data.token)
-            changeEmail("geethukallada1@gmail.com")
-            changeFullName("ADMIN")
-            toggleIsAdmin(true)
-            toggleIsLoggedIn(false)
-            navigate('/')
+            // console.log(response);
+            if(response.data.status){
+                // console.log(response.data.status);
+                setErrorFormVisibility(true)
+                setError(response.data.message)
+                changeEmail("geethukallada1@gmail.com")
+                changeFullName("ADMIN")
+                toggleIsAdmin(true)
+                toggleIsLoggedIn(false)
+                navigate('/')
+                
+            }
+            else{
+                navigate("/login")
+            }
         }
         catch(error){
-            alert(error.response.data.message)
+            setErrorFormVisibility(true)
+            setError(error.response.data.message)
+
         }
     }
     return (
@@ -125,6 +144,8 @@ const Admin = () => {
                      type="submit" className='login-button'>Login</button>
                 </form>
             </div>
+            {errorFormVisibility && <ErrorHandler error={error} setErrorFormVisibility={setErrorFormVisibility} />}
+
         </div>
     )
 }

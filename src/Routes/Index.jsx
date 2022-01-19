@@ -33,7 +33,7 @@ import { TemplateContext } from '../Context/TemplateList'
 import { UserContext } from '../Context/UserContext'
 import { useStoreState,useStoreActions } from 'easy-peasy';
 import Admin from './Admin'
-
+import Footer from './Footer'
 
 import { useEffect } from 'react'
 import postData from '../services/postdata'
@@ -160,7 +160,6 @@ const Index = () => {
                     // })
                 }
             } catch (error) {
-                
                 localStorage.removeItem('token')
                 changeFullName("")
                 changeEmail("")
@@ -198,13 +197,16 @@ const Index = () => {
                     <Route path="about" element={<About/>}/>
                     <Route path="feedback" element={<Feedback/>}/>
                     <Route path="dashboard" element={<Dashboard/>}/>
-                    <Route path="favorite" element={<FavoriteList/>}/>                    
-                    <Route path="faslu/*" element={<Faslu/>}/>
-                    <Route path="geethu/*" element={<Geethu/>}/>
-                    <Route path="raeez/*" element={<Raeez/>}/>
-                    <Route path="rajasree/*" element={<Rajasree/>}/>
-                    <Route path="vishnu/*" element={<Vishnu/>}/>
-                </Route>
+                    <Route path="favorite" element={<FavoriteList/>}/>
+                </Route> 
+                    <Route path="" element={<Footer/>}>
+                        <Route path="faslu/*" element={<Faslu/>}/>
+                        <Route path="geethu/*" element={<Geethu/>}/>
+                        <Route path="raeez/*" element={<Raeez/>}/>
+                        <Route path="rajasree/*" element={<Rajasree/>}/>
+                        <Route path="vishnu/*" element={<Vishnu/>}/>
+                    </Route>
+                
                     <Route path="/form" element={<Form/>}/>
                     <Route path="loading" element={<LoadingError/>}/>
                     <Route path="network-error" element={<Network/>}/>
