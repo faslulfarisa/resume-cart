@@ -176,9 +176,7 @@ const SecondPage = () => {
                     </div>
                     {exp.map(({startingDate,endingDate,companyName,role,detailList},i)=>{
                         return(
-                            <div>
-                                <div className="sub-section-2">
-
+                            <div className="sub-section-2">
                                     <TextField
                                         className="role-section"
                                         value={role}
@@ -189,20 +187,20 @@ const SecondPage = () => {
                                         <TextField
                                             value={companyName}
                                             onChange={(value)=>changeState(["exp",i,"companyName"],value)}
+                                            
                                         />
                                     </div>
-                                    <i>
                                         <TextField
                                             value={startingDate}
                                             onChange={(value)=>changeState(["exp",i,"startingDate"],value)}
+                                            className="date-section-2"
                                         />
-                                    </i>
-                                    -<i>
-                                        <TextField
+                                        -<TextField
                                             value={endingDate}
                                             onChange={(value)=>changeState(["exp",i,"startingDate"],value)}
+                                            className="date-section-2"
                                         />
-                                    </i>
+                                    
                                     <ul>
                                     {detailList.map(({value},j)=><li key={j}>
                                         <TextArea
@@ -212,7 +210,6 @@ const SecondPage = () => {
                                     </li> 
                                     )}
                                 </ul>
-                                </div>
                             </div>
                     )})}
                     <div className="heading-section-2">

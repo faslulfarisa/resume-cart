@@ -16,10 +16,8 @@ body,html,#root,.home-container,.home-description-image-section,.mainContainer_h
     width: 100%;
     z-index: 5;
 }
-.home_icon{
-    width: 40px;
-    
-}
+
+
 .home-heading, .home-description-section{
     color:white;
     padding:10px;

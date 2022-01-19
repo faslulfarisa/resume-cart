@@ -97,9 +97,10 @@
 .sub-section-2 {
     padding: 10px 0;
 }
-.sub-section-2 i {
+.date-section-2 {
     color:#cc4d46;
     font-size: 13px;
+    font-style: italic;
 }
 .role-section{
     font-weight: bold;
