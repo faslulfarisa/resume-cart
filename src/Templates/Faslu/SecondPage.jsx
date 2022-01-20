@@ -19,7 +19,7 @@ const SecondPage = () => {
         designation:"Business Development Manager",
         bio:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum aspernatur minus praesentium repellat! Tenetur dolor iusto, eos consectetur dolorem libero molestiae velit optio quibusdam adipisci explicabo ipsum odit omnis fuga!",
         profileImage:profilePic,
-        address:{phone:"202-555-0166",place:"New York,USA",linkedinId:"linkedin.com/in/john.doe",skypeId:"john.doe"},
+        address:{email:"johndoe@gmail.com",phone:"202-555-0166",place:"New York,USA",linkedinId:"linkedin.com/in/john.doe",skypeId:"john.doe"},
         exp:[
             {
                 role:"Business Development Manager",
@@ -56,6 +56,7 @@ const SecondPage = () => {
             ]
             },
         ],
+        education:{course:"MSc in Economics and Business Administration",collegeName:"The University of Chicago"},
         skill:[
             {id:1,
              value:"SEO"
@@ -74,8 +75,9 @@ const SecondPage = () => {
             }
         ],
     });
-    const{name,designation,bio, profileImage,address,exp, skill}=template;
+    const{name,designation,bio, profileImage,address,exp, education,skill}=template;
     const{phone,place,linkedinId,skypeId}=address;
+    const{course,collegeName}=education;
     const changeState =(keys,value) =>{
         setTemplate(
             (prev)=>produce(prev,(draft)=>{
@@ -216,11 +218,16 @@ const SecondPage = () => {
                         <h4>EDUCATION</h4>
                     </div>
                     <div className="sub-section-2">
-                        <h4>MSc in Economics and Business <br/>Administration</h4>
+                        <TextField
+                            value={course}
+                            onChange={(value)=>changeState(["education","course"],value)}
+                        />
                         <div className="sub-heading-section">
-                            The University of Chicago
-                        </div>
-                        {/* <i>{startingDate}-{endingDate}</i> */}
+                            <TextField
+                                value={collegeName}
+                                onChange={(value)=>changeState(["education","collegeName"],value)}
+                            />
+                        </div>   
                     </div>  
                     <div className="heading-section-2">
                         <h4>LANGUAGES</h4>
