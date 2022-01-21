@@ -4,7 +4,9 @@ import "./Geethu.css"
 import TextField from "./Components/TextField"
 import TextArea from "./Components/TextArea"
 import { useStoreState} from 'easy-peasy';
-
+import downloadTemplate from "../../Routes/templateDownload"
+import download from "../../assets/icons/download-solid.svg"
+import "../../Routes/footer.css"
 
 const FirstPage = () => {
     const colorThemeList=[
@@ -23,7 +25,7 @@ const FirstPage = () => {
         designation:"Sales Associate",
         address:{street:"4759 Sunnydale Lane",
         city:" Plano, TX, 75071",
-        email:"email@youremail.com",
+        gmail:"email@youremail.com",
         phone:"(469) 385-2948"},
         bio:"Human resources generalist with 8 years of experience in HR,including hiring and terminating, disciplining employees and helping department managers improve employee performance. Worked with labor unions to negotiate compensation packages for workers.Organized new hire training initiatives as well as ongoing training to adhere to workplace safety standards.Worked with OSHA to ensure that all safety regulations are followed.",
         experience:[
@@ -105,14 +107,12 @@ const FirstPage = () => {
     })
     const userData = useStoreState((state) => state.userData);
     useEffect(()=>{
-        userData.fullname && tempSetState(prev=>{
-            return{
-                ...prev,
-                name:userData.fullname,
-            }
-        })
-
-    },[userData.fullname])
+       if(userData.fullname || userData.email){
+            changeState(["name"], userData.fullname);
+            changeState(["address", "gmail"], userData.email)
+       }
+    },[userData.fullname, userData.email])
+   
        
     const addToList=(keys,i,value)=>{
         tempSetState(
@@ -231,7 +231,7 @@ const FirstPage = () => {
                        value={address.phone}
                        onChange={value=>changeState(["address","phone"],value)}
                        />
-                        <TextArea  className="textarea" type="text" value={userData.email} onChange={value=>changeState(["address","email"],value)}/><br/>
+                        <TextArea  className="textarea" type="text" value={address.gmail} onChange={value=>changeState(["address","gmail"],value)}/><br/>
                     </div>
                     <div className="bio-wrap1">
                         <TextArea  className="bio1"
@@ -372,7 +372,9 @@ const FirstPage = () => {
                 </div>
 
             </div>
-        </div>            
+        </div> 
+        <div><button onClick={()=>{downloadTemplate(tempState)}}><img className="save-button" src={download} /></button></div>
+           
     </>
     )
 }

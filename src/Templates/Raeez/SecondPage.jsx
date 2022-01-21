@@ -46,7 +46,7 @@ const SecondPage = () => {
             }
         ],
         profileImage:profilepic,
-        contact:{place:"LONDON,UNITED KINGDOM",phone:" 123-456-789-00",gmail:"raeezmohammed97@gmail.com"},
+        contact:{place:"LONDON,UNITED KINGDOM",phone:" 123-456-789-00",gmail:"email@gmail.com"},
         skills:[
                            
                             {id:1,value: "Communication"},
@@ -150,19 +150,13 @@ const SecondPage = () => {
     // const changeFullName = useStoreActions((actions) => actions.changeFullName);
     const changeFullName=useStoreActions((actions)=>action.changeFullName);
     useEffect(()=>{
-        userData.fullname || userData.profilePic || userData.email && setTemplate(prev => {
-            return{
-                ...prev,
-                name: userData.fullname,
-                profilepic:userData.profilePic,
-                gmail:userData.email,
-                
-            }
-        })
-    },[userData.fullname,userData.profilePic,userData.email])
-
-
-
+        if(userData.fullname || userData.email || userData.profilePic){
+        changeState(["name"], userData.fullname)
+        changeState(["contact", "gmail"], userData.email)
+        changeState(["profileImage"],userData.profilePic)
+        }
+    },[userData.fullname, userData.email,userData.profilePic])
+   
     const{theme,name,profilebio,profileImage,jobdesignation,workexp,contact,Education,skills}=template;
     const{place,phone,gmail}=contact;
     return (

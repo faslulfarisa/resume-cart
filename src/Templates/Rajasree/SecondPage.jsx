@@ -9,6 +9,8 @@ import TextArea from "./Components/TextArea"
 import FileUpload from './Components/FileUpload';
 import { useStoreState} from 'easy-peasy';
 import ProgressBar from './Components/ProgressBar';
+import downloadTemplate from '../../Routes/templateDownload';
+import download from "../../assets/icons/download-solid.svg"
 const SecondPage = () => {
     const [progress,setProgress]=useState(0);
     const [skills, setSkills] = useState({
@@ -36,7 +38,7 @@ const SecondPage = () => {
         // name2:"Marz",
         designation:"Illustrator",
         details:{call:" 1234567890",
-        email:"email@youremail.com",
+        gmail:"email@youremail.com",
         location:"America"},
         profile:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa accusantium dicta ducimus deserunt labore ad officia explicabo impedit. Repellendus mollitia quidem suscipit deserunt nostrum odit deleniti id aliquid neque dicta?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Obcaecati quos illum ullam eaque porro sapiente architecto voluptatum repellat odit natus quibusdam, non blanditiis dicta, hic animi quia et cupiditate temporibus.",
         // skillset:{
@@ -146,15 +148,14 @@ const SecondPage = () => {
    
     
     useEffect(()=>{
-        userData.fullname && setState(prev=>{
-            return{
-                ...prev,
-                name:userData.fullname,
-               
-              
-            }
-        })
-    },[userData.fullname])
+        if( userData.fullname || userData.email || userData.profilePic){
+           changeState(["name"],userData.fullname)
+           changeState(["details","gmail"],userData.email)
+           changeState(["profileImage"],userData.profilePic)
+          
+           } 
+ 
+     },[userData.fullname,userData.email,userData.profilePic])
 
     const addToList =(keys,i,value)=>{
         setState((prev)=>{
@@ -235,15 +236,15 @@ const SecondPage = () => {
                     <div className="contacts4_1">
                         ✆<TextField value={details.call}
                         onChange={(value)=>changeState(["details","call"],value)}/><br/>
-                        ✉<TextField value={userData.email}
-                        onChange={(value)=>changeState(["details","email"],value)}/><br/>
+                        ✉<TextField value={details.gmail}
+                        onChange={(value)=>changeState(["details","gmail"],value)}/><br/>
                         📍<TextField value={details.location}
                         onChange={(value)=>changeState(["details","location"],value)}/><br/>
                     </div>
                 </div>
                 <div className="bottom4_1">
                     <div className="bottomleft4_1">   
-                        <FileUpload image={userData.profilePic} 
+                        <FileUpload image={profileImage} 
                         onChange={value=>changeState(["profileImage"],value)}/>
                         
                         <div className="profile4_1">Profile</div>
@@ -365,6 +366,10 @@ const SecondPage = () => {
             </div>       
         </div>   
         </div>
+        <div className="download-button">
+        <button onClick={()=>{downloadTemplate(state)}}><img className="save-button" src={download} /></button>
+        </div>
+        
         </>   
        
     )

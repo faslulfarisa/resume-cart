@@ -141,7 +141,7 @@ const Dashboard = () => {
         const data= new FormData();
         data.append('file',imageData)
         try{
-            const response = await axios.post('http://192.168.1.66:5000/api/v1/upload-profile-image',data,{
+            const response = await axios.post('http://localhost:5000/api/v1/upload-profile-image',data,{
                 headers:{
                     'authorization': localStorage.getItem('token') ? localStorage.getItem('token'): ""
                 },
@@ -151,7 +151,7 @@ const Dashboard = () => {
             setError(response.data.data.message)
         }
         catch(error){
-            // console.log(error.response)
+            console.log(error.response)
             setErrorFormVisibility(true)
             setError(error.response.data.message)
             
